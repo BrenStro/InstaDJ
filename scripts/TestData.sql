@@ -1,0 +1,4 @@
+-- InstaDJ
+-- ISTE 432 01
+-- Ryan Bower, Thomas Kurien, Brendon Strowe, Rana Vemireddy
+-- Script Author: 

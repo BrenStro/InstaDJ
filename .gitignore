@@ -1,0 +1,12 @@
+# Dependency directory
+node_modules
+
+# Debug log from npm
+npm-debug.log
+
+# .env variables
+.env
+
+.DS_Store
+._*
+Thumbs.db

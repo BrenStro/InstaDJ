@@ -1,0 +1,22 @@
+{
+	"name": "instadj",
+	"version": "0.1.0",
+	"description": "A web-based application for generating playlists and discovering new music.",
+	"main": "main.js",
+	"scripts": {
+		"start": "node main.js"
+	},
+	"author": "Ryan Bower, Thomas Kurien, Brendon Strowe, Rana Vemireddy",
+	"dependencies": {
+		"bcrypt": "^1.0.3",
+		"body-parser": "^1.18.2",
+		"connect-flash": "^0.1.1",
+		"cookie-parser": "^1.4.3",
+		"dotenv": "^5.0.1",
+		"express": "^4.16.2",
+		"express-session": "^1.15.6",
+		"mysql": "^2.15.0",
+		"passport": "^0.4.0",
+		"passport-local": "^1.0.0"
+	}
+}
