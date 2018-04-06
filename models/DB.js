@@ -32,7 +32,7 @@ let pool = MYSQL.createPool({
  */
 exports.getData = function(sql, values) {
 
-	// If an error is encountered, the Promise will be rejected with an explanitory error.
+	// If an error is encountered, the Promise will be rejected with an explanatory error.
 	//  Else, it will be resolved with the resulting data from the database query.
 	return new Promise(function(resolve, reject) {
 
@@ -48,6 +48,7 @@ exports.getData = function(sql, values) {
 				connection.release();
 
 				if (queryError) {
+					console.error(queryError);
 					reject('Error querying database. Message: ' + queryError.code);
 				}
 
@@ -92,8 +93,8 @@ exports.setData = function(sql, values) {
 
 				// Information provided from Update.
 				let resultSet = {
-					insertId : results.insertId,
-					rowsAffected : results.affectedRows
+					insertId : results.insertId ? results.insertId : -1,
+					rowsAffected : results.affectedRows ? results.affectedRows : 0
 				};
 				resolve(resultSet);
 			});
