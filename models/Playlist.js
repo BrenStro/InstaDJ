@@ -16,6 +16,7 @@ class Playlist {
 	 * @param {Number} id — ID number of the Playlist from the Playlist table.
 	 */
 	constructor(id=-1) {
+		console.log(id);
 		this.id = id;
 		this.creatorId = 0;
 		this.name = "";
@@ -32,7 +33,7 @@ class Playlist {
 		return new Promise(function(resolve, reject) {
 			DB.setData(
 					"INSERT INTO Playlist (creatorId, name, public) " +
-					"VALUES (?, ?, ?)",
+					"VALUES ($1, $2, $3)",
 					[thisPlaylist.creatorId, thisPlaylist.name, (thisPlaylist.public ? 1 : 0)]
 			).then(function(resultSet) {
 				resolve(resultSet.rowsAffected);
@@ -51,7 +52,7 @@ class Playlist {
 		let thisPlaylist = this;
 		return new Promise(function(resolve, reject) {
 			DB.getData(
-					"SELECT * FROM Playlist WHERE id = ?",
+					"SELECT * FROM Playlist WHERE id = $1",
 					[thisPlaylist.id]
 			).then(function(resultSet) {
 				// Check to make sure data was fetched
@@ -80,8 +81,8 @@ class Playlist {
 		return new Promise(function(resolve, reject) {
 			DB.setData(
 					"UPDATE Playlist " +
-					"SET creatorId = ?, name = ?, public = ? " +
-					"WHERE id = ?",
+					"SET creatorId = $1, name = $2, public = ? " +
+					"WHERE id = $3",
 					[thisPlaylist.creatorId, thisPlaylist.name, (thisPlaylist.public ? 1 : 0)]
 			).then(function(resultSet) {
 				resolve(resultSet.rowsAffected);
@@ -101,7 +102,7 @@ class Playlist {
 		let thisPlaylist = this;
 		return new Promise(function(resolve, reject) {
 			DB.setData(
-					"DELETE FROM Playlist WHERE id = ?",
+					"DELETE FROM Playlist WHERE id = $1",
 					[thisPlaylist.id]
 			).then(function(resultSet) {
 				resolve(resultSet.rowsAffected);
@@ -122,14 +123,14 @@ class Playlist {
 		let thisPlaylist = this;
 		return new Promise(function(resolve, reject) {
 			DB.setData(
-					"UPDATE PlaylistRating SET rating = ? WHERE userId = ? AND playlistId = ?",
+					"UPDATE PlaylistRating SET rating = $1 WHERE userId = $2 AND playlistId = $3",
 					[rating, userId, thisPlaylist.id]
 			).then(function(resultSet) {
 				// Check to see whether or not any data was updated
 				if (resultSet.rowsAffected < 1) {
 					DB.setData(
 							"INSERT INTO PlaylistRating (userId, playlistId, rating) " +
-							"VALUES (?, ?, ?)",
+							"VALUES ($1, $2, $3)",
 							[userId, thisPlaylist.id, rating]
 					).then(function(resultSet) {
 						resolve(resultSet.rowsAffected)
@@ -152,7 +153,7 @@ class Playlist {
 	 */
 	getRating() {
 		return DB.getData(
-				"SELECT rating FROM PlaylistRating WHERE playlistId = ?",
+				"SELECT rating FROM PlaylistRating WHERE playlistId = $1",
 				[this.id]
 		).then(function(resultSet) {
 			if (!resultSet.rows.length) {
@@ -184,7 +185,7 @@ class Playlist {
 			}
 			arrayString = arrayString.substring(0, arrayString.length-2);
 			DB.getData(
-					"SELECT id FROM Playlist WHERE id IN (?)",
+					"SELECT id FROM Playlist WHERE id IN ($1)",
 					[arrayString]
 			).then(function(resultSet) {
 				let playlists = [];
@@ -218,7 +219,7 @@ class Playlist {
 	static getByCreatorId(creatorId) {
 		return new Promise(function(resolve, reject) {
 			DB.getData(
-					"SELECT id FROM Playlist WHERE creatorId = ?",
+					"SELECT id FROM Playlist WHERE creatorId = $1",
 					[creatorId]
 			).then(function(resultSet) {
 				let playlists = [];

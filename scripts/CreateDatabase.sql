@@ -8,35 +8,35 @@
 
 DROP DATABASE IF EXISTS InstaDJ;
 CREATE DATABASE InstaDJ;
-USE InstaDJ;
 
-CREATE TABLE User (
-	id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE Users (
+	id INT PRIMARY KEY,
 	username VARCHAR(64) NOT NULL UNIQUE,
 	password VARCHAR(256) NOT NULL,
 	email VARCHAR(128) NOT NULL UNIQUE
 );
 
 CREATE TABLE Playlist (
-	id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-	creatorId INT UNSIGNED NOT NULL,
+	id INT PRIMARY KEY,
+	creatorId INT NOT NULL,
 	name VARCHAR(64) NOT NULL,
 	public CHAR(1) NOT NULL DEFAULT '1',
-	CONSTRAINT fk_Playlist_creatorId FOREIGN KEY (creatorId) REFERENCES User(id)
+	CONSTRAINT fk_Playlist_creatorId FOREIGN KEY (creatorId) REFERENCES Users(id)
 );
 
+CREATE TYPE RATING AS ENUM('-1', '0', '1');
 CREATE TABLE PlaylistRating (
-	userId INT UNSIGNED NOT NULL,
-	playlistId INT UNSIGNED NOT NULL,
-	rating ENUM('-1', '0', '1'),
+	userId INT NOT NULL,
+	playlistId INT NOT NULL,
+	rating RATING,
 	CONSTRAINT pk_PlaylistRating PRIMARY KEY (userId, playlistId),
-	CONSTRAINT fk_PlaylistRating_userId FOREIGN KEY (userId) REFERENCES User(id),
+	CONSTRAINT fk_PlaylistRating_userId FOREIGN KEY (userId) REFERENCES Users(id),
 	CONSTRAINT fk_PlaylistRating_playlustId FOREIGN KEY (playlistId) REFERENCES Playlist(id)
 );
 
 CREATE TABLE PlaylistTrack (
-	playlistId INT UNSIGNED NOT NULL,
-	trackId INT UNSIGNED NOT NULL,
+	playlistId INT NOT NULL,
+	trackId INT NOT NULL,
 	CONSTRAINT pk_PlaylistTrack PRIMARY KEY (playlistId, trackid),
 	CONSTRAINT fk_PlaylistTrack_playlistId FOREIGN KEY (playlistId) REFERENCES Playlist(id)
 );
