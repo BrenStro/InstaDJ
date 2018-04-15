@@ -30,7 +30,8 @@ let expressApp = express();
 // Configure app to use bodyParser()
 //   as this will let us get the data from a POST
 expressApp.use(bodyParser.json());
-expressApp.use(bodyParser.urlencoded({ extended : true }));
+expressApp.use(bodyParser.json({type : "application/vnd.api+json"})); // parse application/vnd.api+json as json
+expressApp.use(bodyParser.urlencoded({extended : true}));
 expressApp.use(cookieParser());
 
 // Configure login sessions and Passport.

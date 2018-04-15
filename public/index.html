@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<base href="/">
+
+		<title>InstaDJ</title>
+
+		<!-- CSS -->
+		<link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/style.css"> <!-- custom styles -->
+
+		<!-- JS -->
+		<script src="libs/angular/angular.min.js"></script>
+		<script src="libs/angular-ui-router/release/angular-ui-router.min.js"></script>
+
+		<!-- ANGULAR CUSTOM -->
+		<script src="js/app.js"></script>
+		<script src="js/controllers/LoginCtrl.js"></script>
+		<script src="js/controllers/UserCtrl.js"></script>
+		<script src="js/controllers/RegisterCtrl.js"></script>
+		<script src="js/controllers/PlaylistCtrl.js"></script>
+		<script src="js/services/LoginService.js"></script>
+		<script src="js/services/UserService.js"></script>
+		<script src="js/services/RegisterService.js"></script>
+		<script src="js/services/PlaylistService.js"></script>
+
+	</head>
+	<body ng-app="instaDJ">
+		<div class="container">
+			<!-- ANGULAR DYNAMIC CONTENT -->
+			<div ui-view></div>
+
+		</div>
+	</body>
+</html>

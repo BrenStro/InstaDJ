@@ -16,7 +16,7 @@ const passport		= require('passport');
  * Render the homepage
  */
 router.get('/', function(request, response) {
-
+	response.sendfile('./resources/index.html');
 });
 
 /**
