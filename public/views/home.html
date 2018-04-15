@@ -1,20 +1,24 @@
-<div class="jumbotron text-center">
+<div class="jumbotron text-center home">
 	<h1>InstaDJ</h1>
 
 	<p>InstaDJ is an intuitive, collaborative playlist generator that exposes
-		users to new artists and genres. Any user can utilize the application
-		to create private playlists for their personal use or join their friends
-		in making a collaborative playlist. The application works by prompting
-		a user for an artist, genre, and/or country that they want to explore,
-		and InstaDJ will add the top tracks from the selection into the user’s
-		playlist. In addition to allowing the user to quickly populate their
-		playlist, the application also allows them to narrow their focus to
-		specific albums or songs. Upon making a selection, the user will also
-		be shown related artists or genres that they can choose to further
-		fill out their playlist.</p>
+		users to new artists and genres.</p>
 
-		<p>{{testVar}}</p>
+	<p>
+		Any user can utilize the application to create private playlists for
+		their personal use or join their friends in making a collaborative
+		playlist. The application works by prompting a user for an artist,
+		genre, and/or country that they want to explore, and InstaDJ will add
+		the top tracks from the selection into the user’s playlist. In addition
+		to allowing the user to quickly populate their playlist, the
+		application also allows them to narrow their focus to specific albums
+		or songs. Upon making a selection, the user will also be shown related
+		artists or genres that they can choose to further fill out their
+		playlist.
+	</p>
+
+	<p>{{testVar}}</p>
 
 	<button ng-click="state.go('login');">Sign In</button>
-	<button>Sign Up</button>
+	<button ng-click="state.go('register');">Register</button>
 </div>

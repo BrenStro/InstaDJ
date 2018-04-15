@@ -1,3 +1,12 @@
-<div class="jumbotron text-center">
+<div class="jumbotron text-center playlist">
 	<h1>Playlist Page</h1>
+
+	<table ng-table="state.data" class="playlist-table">
+		<tr ng-repeat="row in $data">
+			<td ng-click="">-</td>
+			<td data-title="Title" filter="" sortable="">{{row.title}}</td>
+			<td data-title="Artist" filter="" sortable="">{{row.artist}}</td>
+			<td data-title="Album" filter="" sortable="">{{row.album}}</td>
+		</tr>
+	</table>
 </div>
