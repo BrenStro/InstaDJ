@@ -33,9 +33,10 @@ class Playlist {
 		return new Promise(function(resolve, reject) {
 			DB.setData(
 					"INSERT INTO Playlist (creatorId, name, public) " +
-					"VALUES ($1, $2, $3)",
-					[thisPlaylist.creatorId, thisPlaylist.name, (thisPlaylist.public ? 1 : 0)]
+					"VALUES ($1, $2, $3) RETURNING id",
+					[thisPlaylist.creatorId, thisPlaylist.name, (thisPlaylist.public ? '1' : '0')]
 			).then(function(resultSet) {
+				thisPlaylist.id = resultSet.insertId;
 				resolve(resultSet.rowsAffected);
 			}).catch(function(error) {
 				console.error(error);
@@ -81,9 +82,9 @@ class Playlist {
 		return new Promise(function(resolve, reject) {
 			DB.setData(
 					"UPDATE Playlist " +
-					"SET creatorId = $1, name = $2, public = ? " +
-					"WHERE id = $3",
-					[thisPlaylist.creatorId, thisPlaylist.name, (thisPlaylist.public ? 1 : 0)]
+					"SET creatorId = $1, name = $2, public = $3 " +
+					"WHERE id = $4",
+					[thisPlaylist.creatorId, thisPlaylist.name, (thisPlaylist.public ? 1 : 0), thisPlaylist.id]
 			).then(function(resultSet) {
 				resolve(resultSet.rowsAffected);
 			}).catch(function(error) {

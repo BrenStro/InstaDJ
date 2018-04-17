@@ -37,7 +37,7 @@ exports.getData = function(sql, values) {
 	return new Promise(function(resolve, reject) {
 		// Perform SQL query.
 		pool.query(sql, values).then(function(response) {
-			console.log(response);
+			//console.log(response);
 			resolve(response);
 		}).catch(function(error) {
 			console.error(error);
@@ -58,9 +58,13 @@ exports.setData = function(sql, values) {
 	//  Else, it will be resolved with the resulting data from the database query.
 	return new Promise(function(resolve, reject) {
 		// Perform SQL query.
-		pool.query(sql, values).then(function(response) {
-			console.log(response);
-			resolve(response);
+		pool.query(sql, values).then(function(results) {
+			//console.log(results);
+			let resultSet = {
+				insertId : results.rows[0].id ? results.rows[0].id : -1,
+				rowsAffected : results.rowCount
+			};
+			resolve(resultSet);
 		}).catch(function(error) {
 			console.error(error);
 			reject("Error querying the database.");
