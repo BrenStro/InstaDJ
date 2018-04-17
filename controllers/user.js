@@ -23,18 +23,20 @@ router.all('/*', isLoggedIn, function(request, response) {
 
 /**
  * Handle GET request to /user.
- */
+
 router.get('/', function(request, response) {
 
 });
+ */
 
 /**
  * Handle GET request to /user/forgotUsername.
  * Renders the ForgotUsername page.
-*/
+
 router.get('/forgotUsername', function(request, response) {
 
 });
+*/
 
 /**
  * Handle POST request to /user/forgotUsername.
@@ -59,10 +61,11 @@ router.post('/forgotUsername', function(request, response) {
 /**
  * Handle GET request to /user/forgotPassword.
  * Renders the ForgotPassword page.
- */
+
 router.get('/forgotPassword', function(request, response) {
 
 });
+ */
 
 /**
  * Handle POST request to /user/forgotPassword.

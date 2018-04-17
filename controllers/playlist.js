@@ -10,22 +10,24 @@
 const express		= require('express');
 const router 		= express.Router();
 const validation	= require('../helpers/validation');
-const Playlist		= require('../controllers/Playlist');
+const Playlist		= require('../models/Playlist');
 
 /**
  * Handle GET request to /playlist.
- */
+
 router.get('/', function(request, response) {
 
 });
+ */
 
 /**
  * Handle GET request to /playlist/create.
  * Renders the Create Playlist page.
- */
+
 router.get('/create', function(request, response) {
 
 });
+ */
 
 /**
  * Handle POST request to /playlist/create.
@@ -61,10 +63,12 @@ router.get('/:id', function(request, response) {
 	// Validate input ID as number
 
 	// Get currently logged-in user
-	let userId = request.user.id;
+	let userId = 1;//request.user.id;
 
+	console.log(request.params.id);
 	// Get requested playlist
-	let requestedPlaylist = new Playlist(request.params.id)
+	let requestedPlaylist = new Playlist(request.params.id);
+	console.log(requestedPlaylist);
 	requestedPlaylist.read().then(function() {
 		// Check if the requested playlist is owned by the requesting user
 		//   or if it is publicly listed

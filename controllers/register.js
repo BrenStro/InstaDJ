@@ -9,6 +9,7 @@
 
 const express				= require('express');
 const router 				= express.Router();
+const passport				= require('passport');
 const isLoggedIn			= require('../middleware/isLoggedIn');
 const isNotLoggedIn			= require('../middleware/isNotLoggedIn');
 const generateRandomCode	= require('../middleware/generateRandomCode');
@@ -16,27 +17,32 @@ const validation			= require('../helpers/validation');
 
 /**
  * Handle GET request to /register.
- */
+
 router.get('/', function(request, response) {
 
 });
-
+ */
 /**
  * Handle POST request to /register.
  * Registers the user
  */
-router.post('/', function(request, response) {
-
-});
+router.post('/', generateRandomCode, passport.authenticate('local-registration',
+	{
+		successRedirect : 'index.html#!/user',
+		failureRedirect : 'index.html#!/login',
+		failureFlash : true //Allow Flash messages
+	})
+);
 
 /**
  * Handle GET request to /register/sendConfirmation.
  * Renders the confirmation sent page if the has just completed the registration.
  *  The registration email is sent and the newly registered user is logged out.
- */
+
 router.get('/sendConfirmation', function(request, response) {
 
 });
+ */
 
 /**
  * Handle POST request to /register/sendConfirmation.
@@ -50,10 +56,11 @@ router.post('/sendConfirmation', function(request, response) {
 /**
  * Handle GET request to /register/verifyConfirmation.
  * Renders the page to enter the cofirmation code.
- */
+
 router.get('/verifyConfirmation', function(request, response) {
 
 });
+ */
 
 /**
  * Handle POST request to /register/verifyConfirmation.

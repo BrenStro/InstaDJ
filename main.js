@@ -54,14 +54,14 @@ expressApp.use("/user", userController);
 expressApp.use("/register", registerController);
 
 // View engine setup
-expressApp.set("views", "./views");
+//expressApp.set("views", "./views");
 //expressApp.set("view engine", "pug");
 
 // Makes the generated html easier to read
 expressApp.locals.pretty = true;
 
 // Make resources available to views (i.e. css, client-side js, images, etc.)
-expressApp.use(express.static(__dirname + "/resource"));
+expressApp.use(express.static(__dirname + "/public"));
 
 // Catch 404 and forward to error handler
 expressApp.use(function(request, response, next) {

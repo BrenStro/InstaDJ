@@ -16,17 +16,18 @@ const passport		= require('passport');
  * Render the homepage
  */
 router.get('/', function(request, response) {
-	response.sendfile('./resources/index.html');
+	response.redirect('index.html');
 });
 
 /**
  * Handle GET request to /login.
  * Render the login page. Include handling of flash-message that may have been
  *   passed from Passport.
- */
+
 router.get('/login', function(request, response) {
 	response.render('login', {loginErrorMsg : request.flash('loginErrorMsg'), signupErrorMsg : request.flash('signupErrorMsg')});
 });
+ */
 
 /**
  * Handle POST request to /login.
@@ -44,10 +45,11 @@ router.post('/login', passport.authenticate('local-login',
 /**
  * Handle GET request to /logout.
  * Logout the user and redirect them to the Home (Pages) page.
- */
+
 router.get('/logout', function(request, response) {
 	request.logout();
 	response.redirect('/');
 });
+ */
 
 module.exports = router;

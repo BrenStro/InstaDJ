@@ -48,24 +48,25 @@ module.exports = function(passport) {
 			passReqToCallback : true // Allows us to pass back the entire request to the callback/done function
 		},
 		function (request, username, password, done) {
-			// Query database with ritUsername
+			// Query database with username
 			//  We want to check if the user trying to login already exists
 			// Query database with the requested username
 			let user = new User(null, username);
-			user.read().then(function() {
+			user.readByUsername().then(function() {
 				// If no error occurs when reading in a user, then one under
 				//   that username exists. Return an error.
 				done(null, false, request.flash('registrationErrorMsg', "A user with the username " + username + " already exists."));
 			}).catch(function(error) {
+				console.error(error);
 				// If an error occurs, then the requsted user does not exist.
 				//   Register the user.
-
 				// Hash password
 				bcrypt.hash(password, 10).then(function(hash) {
 					user.password = hash;
 					user.email = request.body.email;
-					user.confirmationCode = request.body.confirmationCode;
-					user.create().then(function() {
+					user.confirmationCode = request.confirmationCode;
+					user.create().then(function(rowsAffected) {
+						console.log(rowsAffected);
 						done(null, user);
 					}).catch(function(error) {
 						console.error("ERROR creating new user: ", user);
@@ -74,7 +75,7 @@ module.exports = function(passport) {
 				}).catch(function(error){
 					console.log("BCRYPT ERROR: " + error);
 					done(error);
-				})
+				});
 			});
 		}
 	));
