@@ -100,10 +100,16 @@ router.get('/:id', function(request, response) {
 	let requestedUser = new User(request.params.id)
 	requestedUser.read().then(function() {
 		// Render the Userpage.
-		response.send(requestedUser);
+		response.send({
+			success : true,
+			user : requestedUser
+		});
 	}).catch(function(error) {
 		// Render the noUserFound page.
-		console.error(error);
+		console.error({
+			success : false,
+			message : error
+		});
 	});
 });
 
