@@ -151,18 +151,42 @@ class Playlist {
 	addTracks(tracks) {
 		let thisPlaylist = this;
 		return new Promise(function(resolve, reject) {
+			let trackCount = 0;
 			for (let trackId in tracks) {
 				DB.setData(
 						"INSERT INTO PlaylistTrack (playlistId, trackId) " +
 						"VALUES ($1, $2)",
 						[thisPlaylist.id, trackId]
 				).then(function(resultSet) {
+					trackCount++;
 					continue;
 				}).catch(function(error) {
 					console.error(error);
 					continue;
 				});
 			}
+			resolve(trackCount);
+		});
+	}
+
+	deleteTracks(tracks) {
+		let thisPlaylist = this;
+		return new Promise(function(resolve, reject) {
+			let trackCount = 0;
+			for (let trackId in tracks) {
+				DB.setData(
+						"DELETE FROM PlaylistTrack " +
+						"WHERE playlistId = $1 AND trackId = $2",
+						[thisPlaylist.id, trackId]
+				).then(function(resultSet) {
+					trackCount++;
+					continue;
+				}).catch(function(error) {
+					console.error(error);
+					continue;
+				});
+			}
+			resolve(trackCount);
 		});
 	}
 

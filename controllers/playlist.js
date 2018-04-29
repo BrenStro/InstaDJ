@@ -143,7 +143,7 @@ router.post('/:id/rate', function(request, response) {
 			requestedPlaylist.setRating(userId, newRating);
 			response.send({
 				success : true,
-				message : "The Playlist does not exist."
+				message : `Successfully rated the playlist ${newRating}`
 			});
 		} else if (!requestedPlaylist.public) {
 			// send an error message
@@ -256,13 +256,36 @@ router.post('/:id/addTracks', function(request, response) {
 		//   or if it is publicly listed
 		if (requestedPlaylist.creatorId == userId || requestedPlaylist.public) {
 			// if so, add the songs
-
+			requestedPlaylist.addTracks(newTracks).then(function(trackCount) {
+				response.send({
+					success : true,
+					message : `${trackCount} tracks added successfully`
+				});
+			}).catch(function(error) {
+				response.send({
+					success : false,
+					message : error
+				});
+			});
+		} else if (!requestedPlaylist.public) {
+			// send an error message
+			response.send({
+				success : false,
+				message : "Only owners can modify their own private playlists."
+			});
 		} else {
-			// render an error message
-
+			// send an error message
+			response.send({
+				success : false,
+				message : "Cannot modify the selected playlist."
+			});
 		}
 	}).catch(function(error) {
-
+		// send an error message
+		response.send({
+			success : false,
+			message : "The requested playlist does not exist."
+		});
 	});
 });
 
@@ -273,12 +296,25 @@ router.post('/:id/addTracks', function(request, response) {
  */
 router.post('/:id/deleteTracks', function(request, response) {
 	// Validate input ID as number
+	let playlistId = request.params.id;
+	playlistId = parseInt(playlistId);
+	if (isNaN(playlistId)) {
+		response.send({
+			success : false,
+			message : "The requested Playlist does not exist."
+		});
+	}
 
-	// Validate JSON
-
-	// Get info out of JSON
-
-	// Sanitize input
+	// Validate data
+	let tracksToDelete = request.body.tracks;
+	for (let trackId of newTracks) {
+		if (trackId.length != 37) {
+			response.send({
+				success : false,
+				message : `Invalid track provided at ${trackId}.`
+			});
+		}
+	}
 
 	// Get currently logged-in user
 	let userId = request.user.id;
@@ -290,13 +326,36 @@ router.post('/:id/deleteTracks', function(request, response) {
 		//   or if it is publicly listed
 		if (requestedPlaylist.creatorId == userId || requestedPlaylist.public) {
 			// if so, add the songs
-
+			requestedPlaylist.deleteTracks(tracksToDelete).then(function(trackCount) {
+				response.send({
+					success : true,
+					message : `${trackCount} tracks deleted successfully`
+				});
+			}).catch(function(error) {
+				response.send({
+					success : false,
+					message : error
+				});
+			});
+		} else if (!requestedPlaylist.public) {
+			// send an error message
+			response.send({
+				success : false,
+				message : "Only owners can modify their own private playlists."
+			});
 		} else {
-			// render an error message
-
+			// send an error message
+			response.send({
+				success : false,
+				message : "Cannot modify the selected playlist."
+			});
 		}
 	}).catch(function(error) {
-
+		// send an error message
+		response.send({
+			success : false,
+			message : "The requested playlist does not exist."
+		});
 	});
 });
 
