@@ -27,7 +27,7 @@ class User {
 		this.email = email;
 		this.confirmationCode = "";
 		this.createdPlaylists = [];
-		this.likedPlaylists0 = [];
+		this.likedPlaylists = [];
 	}
 
 	/**
@@ -58,14 +58,12 @@ class User {
 	 */
 	read() {
 		let thisUser = this;
-		console.log("THIS USER\n", thisUser);
 		return new Promise(function(resolve, reject) {
 			DB.getData(
 					"SELECT * FROM Users WHERE id = $1",
 					[thisUser.id]
 			).then(function(resultSet) {
 				// Check to make sure data was fetched
-				console.log("USER RESULT SET: \n", resultSet);
 				if (resultSet.rows.length) {
 					thisUser.username = resultSet.rows[0].username;
 					thisUser.password = resultSet.rows[0].password;

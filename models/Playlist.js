@@ -21,6 +21,7 @@ class Playlist {
 		this.creatorId = 0;
 		this.name = "";
 		this.public = false;
+		this.tracks = [];
 	}
 
 	/**
@@ -58,16 +59,46 @@ class Playlist {
 			).then(function(resultSet) {
 				// Check to make sure data was fetched
 				if (resultSet.rows.length) {
-					thisPlaylist.creatorId = resultSet.rows[0].creatorId;
+					thisPlaylist.creatorId = resultSet.rows[0].creatorid;
 					thisPlaylist.name = resultSet.rows[0].name;
 					thisPlaylist.public = resultSet.rows[0].public ? true : false;
-					resolve();
+					thisPlaylist.readTracks().then(function() {
+						console.log("THIS PLAYLIST", thisPlaylist);
+						resolve();
+					}).catch(function(error) {
+						reject(error);
+					});
 				} else {
 					reject(`No Playlist was found with the given ID of ${thisPlaylist.id}`);
 				}
 			}).catch(function(error) {
 				console.error(error);
 				reject("An error occurred trying to access the Playlists database. Please try again.");
+			});
+		});
+	}
+
+	readTracks() {
+		let thisPlaylist = this;
+		return new Promise(function(resolve, reject) {
+			DB.getData(
+				"SELECT trackId FROM PlaylistTrack WHERE playlistId = $1",
+				[thisPlaylist.id]
+			).then(function(resultSet) {
+				if (resultSet.rows.length) {
+					let tracks = [];
+					for (let row of resultSet.rows) {
+						tracks.push(row.trackid.trim())
+					}
+					thisPlaylist.tracks = tracks;
+				} else {
+					console.log("NO TRACKS");
+					//reject(`No Playlist was found with the given ID of ${thisPlaylist.id}`);
+				}
+				resolve();
+			}).catch(function(error) {
+				console.error(error);
+				reject("An error occurred trying to read in the tracks for the requested Playlist.")
 			});
 		});
 	}
