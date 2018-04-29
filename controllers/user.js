@@ -11,15 +11,16 @@ const express		= require('express');
 const router 		= express.Router();
 const isLoggedIn	= require('../middleware/isLoggedIn');
 const validation	= require('../helpers/validation');
-const User			= require('../controllers/User');
+const User			= require('../models/User');
 
 /**
  * Handle all requests to the /user route.
  * All requests to this route must go through the isLoggedIn middleware, first.
- */
+
 router.all('/*', isLoggedIn, function(request, response) {
 	next('route');
 });
+*/
 
 /**
  * Handle GET request to /user.
@@ -94,7 +95,7 @@ router.post('/forgotPassword', function(request, response) {
  */
 router.get('/:id', function(request, response) {
 	// Validate input ID as number
-
+	console.log(request.params.id);
 	// Get requested user
 	let requestedUser = new User(request.params.id)
 	requestedUser.read().then(function() {
@@ -102,7 +103,7 @@ router.get('/:id', function(request, response) {
 		response.send(requestedUser);
 	}).catch(function(error) {
 		// Render the noUserFound page.
-
+		console.error(error);
 	});
 });
 

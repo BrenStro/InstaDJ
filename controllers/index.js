@@ -45,11 +45,11 @@ router.post('/login', passport.authenticate('local-login',
 /**
  * Handle GET request to /logout.
  * Logout the user and redirect them to the Home (Pages) page.
-
-router.get('/logout', function(request, response) {
-	request.logout();
-	response.redirect('/');
-});
  */
+router.post('/logout', function(request, response) {
+	request.logout();
+	response.send({});
+});
+
 
 module.exports = router;

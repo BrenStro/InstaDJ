@@ -134,7 +134,7 @@ class Playlist {
 							"VALUES ($1, $2, $3)",
 							[userId, thisPlaylist.id, rating]
 					).then(function(resultSet) {
-						resolve(resultSet.rowsAffected)
+						resolve(resultSet.rowsAffected);
 					}).catch(function(error) {
 						reject("Unable to insert a new rating. Please try again.");
 					});
@@ -145,6 +145,24 @@ class Playlist {
 				console.error(error);
 				reject("Unable to update the existing rating. Please try again.");
 			});
+		});
+	}
+
+	addTracks(tracks) {
+		let thisPlaylist = this;
+		return new Promise(function(resolve, reject) {
+			for (let trackId in tracks) {
+				DB.setData(
+						"INSERT INTO PlaylistTrack (playlistId, trackId) " +
+						"VALUES ($1, $2)",
+						[thisPlaylist.id, trackId]
+				).then(function(resultSet) {
+					continue;
+				}).catch(function(error) {
+					console.error(error);
+					continue;
+				});
+			}
 		});
 	}
 
@@ -170,6 +188,8 @@ class Playlist {
 			return 0;
 		});
 	}
+
+
 
 	/**
 	 * Gets multiple Playlists as specified by an array of Playlist ID numbers.

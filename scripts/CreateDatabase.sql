@@ -36,7 +36,7 @@ CREATE TABLE PlaylistRating (
 
 CREATE TABLE PlaylistTrack (
 	playlistId INT NOT NULL,
-	trackId INT NOT NULL,
+	trackId CHAR(37) NOT NULL,
 	CONSTRAINT pk_PlaylistTrack PRIMARY KEY (playlistId, trackid),
 	CONSTRAINT fk_PlaylistTrack_playlistId FOREIGN KEY (playlistId) REFERENCES Playlist(id)
 );

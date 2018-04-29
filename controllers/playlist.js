@@ -61,27 +61,42 @@ router.post('/create', function(request, response) {
  */
 router.get('/:id', function(request, response) {
 	// Validate input ID as number
+	let playlistId = request.params.id;
+	playlistId = parseInt(playlistId);
+	if (isNaN(playlistId)) {
+		response.send({
+			success : false,
+			message : "The requested Playlist does not exist."
+		});
+	}
 
 	// Get currently logged-in user
-	let userId = 1;//request.user.id;
+	let userId = request.user.id;
 
-	console.log(request.params.id);
 	// Get requested playlist
-	let requestedPlaylist = new Playlist(request.params.id);
-	console.log(requestedPlaylist);
+	let requestedPlaylist = new Playlist(playlistId);
+
 	requestedPlaylist.read().then(function() {
 		// Check if the requested playlist is owned by the requesting user
 		//   or if it is publicly listed
 		if (requestedPlaylist.creatorId == userId || requestedPlaylist.public) {
 			// render the playlist page
-			response.send(requestedPlaylist);
+			response.send({
+				success : true,
+				data : requestedPlaylist
+			});
 		} else {
-			// render a playlistNotPublic message
-
+			response.send({
+				success : false,
+				message : "The requested Playlist is not public."
+			});
 		}
 	}).catch(function(error) {
-		// render a playlistNotFound page
-
+		console.error(error);
+		response.send({
+			success : false,
+			message : "There was an error retrieving the requested playlist."
+		});
 	});
 });
 
@@ -93,27 +108,62 @@ router.get('/:id', function(request, response) {
 router.post('/:id/rate', function(request, response) {
 	// Get currently logged-in user
 	let userId = request.user.id;
-	// Validate JSON
 
-	// Get info out of JSON
-
-	// Sanitize input
+	// Validate input
+	let newRating = request.body.rating;
+	newRating = parseInt(newRating);
+	if (isNaN(newRating)) {
+		response.send({
+			success : false,
+			message : "Invalid rating."
+		});
+	} else if (newRating != -1 || newRating != 0 || newRating != 1) {
+		response.send({
+			success : false,
+			message : "Invalid rating."
+		});
+	}
 
 	// Get the Playlist requested
-	let requestedPlaylist = new Playlist(request.params.id);
+	let playlistId = request.params.id;
+	playlistId = parseInt(playlistId);
+	if (isNaN(playlistId)) {
+		response.send({
+			success : false,
+			message : "The Playlist does not exist."
+		});
+	}
+	let requestedPlaylist = new Playlist(playlistId);
 
 	// Read in the requested playlist
 	requestedPlaylist.read().then(function() {
-		// Check if the requested playlist is owned by the requesting user
-		if (requestedPlaylist.creatorId == userId) {
-			// if so, delete the playlist
-			requestedPlaylist.delete();
+		// Check if the requested playlist is public and is not owned by the requesting user
+		if (requestedPlaylist.public && requestedPlaylist.creatorId != userId) {
+			// if so, rate the playlist
+			requestedPlaylist.setRating(userId, newRating);
+			response.send({
+				success : true,
+				message : "The Playlist does not exist."
+			});
+		} else if (!requestedPlaylist.public) {
+			// send an error message
+			response.send({
+				success : false,
+				message : "Cannot rate private playlists."
+			});
 		} else {
-			// render an error message
-
+			// send an error message
+			response.send({
+				success : false,
+				message : "Creators cannot rate their own playlists."
+			});
 		}
 	}).catch(function(error) {
-
+		console.error(error);
+		response.send({
+			success : false,
+			message : "There was an error retrieving the requested playlist."
+		});
 	});
 });
 
@@ -123,6 +173,14 @@ router.post('/:id/rate', function(request, response) {
  */
 router.post('/:id/delete', function(request, response) {
 	// Validate input ID as number
+	let playlistId = request.params.id;
+	playlistId = parseInt(playlistId);
+	if (isNaN(playlistId)) {
+		response.send({
+			success : false,
+			message : "The requested Playlist does not exist."
+		});
+	}
 
 	// Get currently logged-in user
 	let userId = request.user.id;
@@ -133,13 +191,31 @@ router.post('/:id/delete', function(request, response) {
 		// Check if the requested playlist is owned by the requesting user
 		if (requestedPlaylist.creatorId == userId) {
 			// if so, delete the playlist
-			requestedPlaylist.delete();
+			requestedPlaylist.delete().then(function() {
+				response.send({
+					success : true,
+					message : "Playlist deleted successfully."
+				});
+			}).catch(function(error) {
+				console.error(error);
+				response.send({
+					success : false,
+					message : "There was an error deleting the requested playlist."
+				});
+			});
 		} else {
 			// render an error message
-
+			response.send({
+				success : false,
+				message : "Only creators can delete their own playlists."
+			});
 		}
 	}).catch(function(error) {
-
+		console.error(error);
+		response.send({
+			success : false,
+			message : "There was an error retrieving the requested playlist."
+		});
 	});
 });
 
@@ -150,12 +226,25 @@ router.post('/:id/delete', function(request, response) {
  */
 router.post('/:id/addTracks', function(request, response) {
 	// Validate input ID as number
+	let playlistId = request.params.id;
+	playlistId = parseInt(playlistId);
+	if (isNaN(playlistId)) {
+		response.send({
+			success : false,
+			message : "The requested Playlist does not exist."
+		});
+	}
 
-	// Validate JSON
-
-	// Get info out of JSON
-
-	// Sanitize input
+	// Validate data
+	let newTracks = request.body.tracks;
+	for (let trackId of newTracks) {
+		if (trackId.length != 37) {
+			response.send({
+				success : false,
+				message : `Invalid track provided at ${trackId}.`
+			});
+		}
+	}
 
 	// Get currently logged-in user
 	let userId = request.user.id;
