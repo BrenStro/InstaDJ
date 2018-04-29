@@ -93,14 +93,11 @@ module.exports = function(passport) {
 			passReqToCallback : true // Allows us to pass back the entire request to the callback/done function
 		},
 		function(request, username, password, done) {
-			console.log(request.body.username);
-
 			// Query database with username and password.
 			//  We want to validate their login credentials.
 
-			let user = new User(null, request.body.username);
+			let user = new User(null, username);
 			user.readByUsername().then(function() {
-				console.log("READ USER ", user);
 				// If no error occurs when trying to read in a user from the
 				//   database, then continue checking their password.
 
@@ -111,9 +108,8 @@ module.exports = function(passport) {
 				//}
 
 				// Check password
-				bcrypt.compare(request.body.password, user.password).then(function(result) {
-					console.log("READ PASSWORD ", result);
-					if(result) {
+				bcrypt.compare(password, user.password).then(function(result) {
+					if (result) {
 						done(null, user);
 					} else {
 						done(null, false, request.flash('loginErrorMsg', "You have entered an erroneous username or password."));
