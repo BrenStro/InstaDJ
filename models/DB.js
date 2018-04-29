@@ -61,7 +61,7 @@ exports.setData = function(sql, values) {
 		pool.query(sql, values).then(function(results) {
 			//console.log(results);
 			let resultSet = {
-				insertId : results.rows[0].id ? results.rows[0].id : -1,
+				insertId : results.rows[0] ? results.rows[0].id : -1,
 				rowsAffected : results.rowCount
 			};
 			resolve(resultSet);
