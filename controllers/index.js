@@ -33,12 +33,10 @@ router.get('/login', function(request, response) {
  * Handle POST request to /login.
  * Have passport handle the credential validation.
  */
-router.post('/login', passport.authenticate('local-login',
-	{
-		successRedirect : '/user/',
-		failureRedirect : '/login',
-		failureFlash : true //Allow Flash messages
-	})
+router.post('/login', passport.authenticate('local-login'),
+function(request, response) {
+	response.send(request.user);
+}
 );
 
 

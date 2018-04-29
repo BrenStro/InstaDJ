@@ -93,23 +93,26 @@ module.exports = function(passport) {
 			passReqToCallback : true // Allows us to pass back the entire request to the callback/done function
 		},
 		function(request, username, password, done) {
+			console.log(request.body.username);
 
 			// Query database with username and password.
 			//  We want to validate their login credentials.
 
-			let user = new User(null, username);
-			user.read().then(function() {
+			let user = new User(null, request.body.username);
+			user.readByUsername().then(function() {
+				console.log("READ USER ", user);
 				// If no error occurs when trying to read in a user from the
 				//   database, then continue checking their password.
 
 				// If a user has a confirmation code, they must finish
 				//   registering before they can use their account.
-				if (user.confirmationCode) {
-					done(null, false, request.flash('loginErrorMsg', "You must finish registration before logging in. Please follow the instructions in your email."));
-				}
+				//if (user.confirmationCode) {
+				//	done(null, false, request.flash('loginErrorMsg', "You must finish registration before logging in. Please follow the instructions in your email."));
+				//}
 
 				// Check password
-				bcrypt.compare(password, user.password).then(function(result) {
+				bcrypt.compare(request.body.password, user.password).then(function(result) {
+					console.log("READ PASSWORD ", result);
 					if(result) {
 						done(null, user);
 					} else {
