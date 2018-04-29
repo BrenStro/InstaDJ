@@ -35,21 +35,35 @@ router.get('/create', function(request, response) {
  *   in JSON format.
  */
 router.post('/create', function(request, response) {
-	// Validate JSON
-
-	// Get info out of JSON
-
-	// Sanitize input
+	// Validate input
+	let newPlaylistName = request.body.name;
+	if (!validation.alphabeticNumericPunct(newPlaylistName)) {
+		response.send({
+			success : false,
+			message : "Invalid playlist name"
+		});
+	}
+	let newPlaylistPublic = request.body.public;
+	newPlaylistPublic = (newPlaylistPublic == true || newPlaylistPublic == 'true');
 
 	// Create new Playlist
 	let newPlaylist = new Playlist();
+	newPlaylist.name = newPlaylistName;
+	newPlaylist.public = newPlaylistPublic;
+	newPlaylist.creatorId = 1;
 
 	// Store newly created playlist
-	newPlaylist.create().then(function() {
-
-
+	newPlaylist.create().then(function(rowsAffected) {
+		response.send({
+			success : true,
+			data : newPlaylist
+		});
 	}).catch(function(error) {
-
+		console.error(error);
+		response.send({
+			success : false,
+			message : "There was an error creating the new Playlist."
+		});
 	});
 });
 
@@ -71,16 +85,22 @@ router.get('/:id', function(request, response) {
 	}
 
 	// Get currently logged-in user
-	let userId = request.user.id;
+	let userId = 1;
 
 	// Get requested playlist
 	let requestedPlaylist = new Playlist(playlistId);
 
-	requestedPlaylist.read().then(function() {
+	requestedPlaylist.read()
+	.then(function() {
+		return requestedPlaylist.readTracks();
+	})
+	.then(function() {
+		return requestedPlaylist.readRating();
+	})
+	.then(function() {
 		// Check if the requested playlist is owned by the requesting user
 		//   or if it is publicly listed
 		if (requestedPlaylist.creatorId == userId || requestedPlaylist.public) {
-			// render the playlist page
 			response.send({
 				success : true,
 				data : requestedPlaylist
@@ -107,17 +127,16 @@ router.get('/:id', function(request, response) {
  */
 router.post('/:id/rate', function(request, response) {
 	// Get currently logged-in user
-	let userId = request.user.id;
+	let userId = 2;
 
 	// Validate input
 	let newRating = request.body.rating;
-	newRating = parseInt(newRating);
 	if (isNaN(newRating)) {
 		response.send({
 			success : false,
 			message : "Invalid rating."
 		});
-	} else if (newRating != -1 || newRating != 0 || newRating != 1) {
+	} else if (newRating != -1 && newRating != 0 && newRating != 1) {
 		response.send({
 			success : false,
 			message : "Invalid rating."
@@ -183,7 +202,7 @@ router.post('/:id/delete', function(request, response) {
 	}
 
 	// Get currently logged-in user
-	let userId = request.user.id;
+	let userId = 1;
 
 	// Get requested playlist
 	let requestedPlaylist = new Playlist(request.params.id)

@@ -16,12 +16,12 @@ class Playlist {
 	 * @param {Number} id — ID number of the Playlist from the Playlist table.
 	 */
 	constructor(id=-1) {
-		console.log(id);
 		this.id = id;
 		this.creatorId = 0;
 		this.name = "";
 		this.public = false;
 		this.tracks = [];
+		this.rating = 0;
 	}
 
 	/**
@@ -61,13 +61,8 @@ class Playlist {
 				if (resultSet.rows.length) {
 					thisPlaylist.creatorId = resultSet.rows[0].creatorid;
 					thisPlaylist.name = resultSet.rows[0].name;
-					thisPlaylist.public = resultSet.rows[0].public ? true : false;
-					thisPlaylist.readTracks().then(function() {
-						console.log("THIS PLAYLIST", thisPlaylist);
-						resolve();
-					}).catch(function(error) {
-						reject(error);
-					});
+					thisPlaylist.public = resultSet.rows[0].public == 1 ? true : false;
+					resolve();
 				} else {
 					reject(`No Playlist was found with the given ID of ${thisPlaylist.id}`);
 				}
@@ -93,12 +88,39 @@ class Playlist {
 					thisPlaylist.tracks = tracks;
 				} else {
 					console.log("NO TRACKS");
-					//reject(`No Playlist was found with the given ID of ${thisPlaylist.id}`);
 				}
+				//console.log("TRACKS ", thisPlaylist);
 				resolve();
 			}).catch(function(error) {
 				console.error(error);
 				reject("An error occurred trying to read in the tracks for the requested Playlist.")
+			});
+		});
+	}
+
+	readRating() {
+		let thisPlaylist = this;
+		return new Promise(function(resolve, reject) {
+			DB.getData(
+					"SELECT rating FROM PlaylistRating WHERE playlistId = $1",
+					[thisPlaylist.id]
+			).then(function(resultSet) {
+				if (resultSet.rows.length < 1) {
+					thisPlaylist.rating = 0;
+					resolve();
+					return;
+				}
+				let averageRating = 0;
+				for (let row of resultSet.rows) {
+					averageRating += parseInt(row.rating);
+				}
+				thisPlaylist.rating = (averageRating / resultSet.rows.length);
+				//console.log("RATING ", thisPlaylist);
+				resolve();
+			}).catch(function(error) {
+				console.error(error);
+				thisPlaylist.rating = 0;
+				resolve();
 			});
 		});
 	}
