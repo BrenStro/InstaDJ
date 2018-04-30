@@ -14,3 +14,6 @@ geo.gettoptracks&country=COUNTRY_NAME (i.e. spain, germany, china)
 
 get top tracks by genre:
 tag.gettoptracks&tag=GENRE (i.e. rock, pop, indie)
+
+get track by mbid:
+method=track.getInfo&api_key=31019bd7e0a4251800e5ce24efb9d5ea&mbid=TRACK_MBID&format=json
