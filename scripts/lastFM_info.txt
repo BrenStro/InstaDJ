@@ -1,0 +1,16 @@
+our api key: 31019bd7e0a4251800e5ce24efb9d5ea
+
+Last.FM API endpoint:
+
+URL: http://ws.audioscrobbler.com/2.0/?method=INSERT_METHOD_HERE&api_key=31019bd7e0a4251800e5ce24efb9d5ea&format=json
+
+METHODS:
+
+get charts top tracks:
+chart.gettoptracks
+
+get top tracks by country:
+geo.gettoptracks&country=COUNTRY_NAME (i.e. spain, germany, china)
+
+get top tracks by genre:
+tag.gettoptracks&tag=GENRE (i.e. rock, pop, indie)
