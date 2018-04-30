@@ -33,7 +33,7 @@ router.post('/create', function(request, response) {
 	let newPlaylist = new Playlist();
 	newPlaylist.name = newPlaylistName;
 	newPlaylist.public = newPlaylistPublic;
-	newPlaylist.creatorId = 1;
+	newPlaylist.creatorId = request.user.id;
 
 	// Store newly created playlist
 	newPlaylist.create().then(function(rowsAffected) {
