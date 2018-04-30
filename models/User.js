@@ -126,15 +126,13 @@ class User {
 					let playlists = [];
 					for (let row of resultSet.rows) {
 						let playlist = new Playlist(row.id);
+						playlists.push(playlist);
 						playlist.read()
 						.then(function() {
 							return playlist.readTracks();
 						})
 						.then(function() {
 							return playlist.readRating();
-						})
-						.then(function() {
-							playlists.push(playlist);
 						});
 					}
 					thisUser.createdPlaylists = playlists;

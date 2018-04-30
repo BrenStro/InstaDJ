@@ -92,7 +92,7 @@ class Playlist {
 					}
 					thisPlaylist.tracks = tracks;
 				} else {
-					console.log("NO TRACKS");
+					//console.log("NO TRACKS");
 				}
 				//console.log("TRACKS ", thisPlaylist);
 				resolve();
