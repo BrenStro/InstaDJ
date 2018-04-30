@@ -45,20 +45,26 @@ body {
 	width: 150px;
 	text-align: right;
 }
-.login label:not(red) {
+.login label:not(.red) {
 	width: 80px;
 }
 
 /* playlist */
 .playlist .playlist-table {
 	width: 600px;
-	margin: 40px auto 5px auto;
+	margin: 40px auto 40px auto;
 	border: 1px solid #000;
 }
 .playlist .playlist-table td {
 	border-top: 1px solid #000;
 	border-bottom: 1px solid #000;
 	padding: 4px;
+}
+.playlist #home-button {
+	margin-top: 20px;
+}
+.playlist p {
+	margin-bottom: 6px;
 }
 
 /* user */
