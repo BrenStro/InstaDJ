@@ -25,6 +25,10 @@ body {
 	text-align: right;
 }
 
+.red{
+	color: red;
+}
+
 /* playlist */
 .playlist .playlist-table {
 	max-width: 600px;

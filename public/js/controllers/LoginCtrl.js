@@ -12,7 +12,8 @@ angular.module('instaDJ').controller('LoginCtrl', function($scope, $rootScope, $
         $state.go('user');
       },
       function error(response){
+        console.log(response);
         $scope.loginFailed = true;
-      })
+      });
     }
 });
