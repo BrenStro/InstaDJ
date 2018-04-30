@@ -8,6 +8,7 @@
  */
 
 const DB = require('./DB');
+const Playlist = require('./Playlist');
 
 class User {
 
@@ -104,6 +105,86 @@ class User {
 			}).catch(function(error) {
 				console.error(error);
 				reject("An error occurred trying to access the Users database. Please try again.");
+			});
+		});
+	}
+
+	/**
+	 * Reads in all of the playlists created by this user and sets the
+	 *   `createdPlaylists` property of this User object to an array of
+	 *   Playlist objects as described by the database.
+	 * @return {Promise} Whether or not the read was successful.
+	 */
+	readCreatedPlaylists() {
+		let thisUser = this;
+		return new Promise(function(resolve, reject) {
+			DB.getData(
+				"SELECT id FROM Playlist WHERE creatorId = $1",
+				[thisUser.id]
+			).then(function(resultSet) {
+				if (resultSet.rows.length) {
+					let playlists = [];
+					for (let row of resultSet.rows) {
+						let playlist = new Playlist(row.id);
+						playlist.read()
+						.then(function() {
+							return playlist.readTracks();
+						})
+						.then(function() {
+							return playlist.readRating();
+						})
+						.then(function() {
+							playlists.push(playlist);
+						});
+					}
+					thisUser.createdPlaylists = playlists;
+				} else {
+					console.log("NO PLAYLISTS");
+				}
+				resolve();
+			}).catch(function(error) {
+				console.log(error);
+				reject("An error occurred trying to read this uesr's created playlists from the database.");
+			});
+		});
+	}
+
+	/**
+	 * Reads in all of the playlists liked by this user and sets the 
+	 *   `likedPlaylists` property of this User object to an array of
+	 *   Playlist objects as described by the database.
+	 * @return {Promise} Whether or not the read was successful.
+	 */
+	readLikedPlaylists() {
+		let thisUser = this;
+		return new Promise(function(resolve, reject) {
+			DB.getData(
+				"SELECT playlistId FROM PlaylistRating WHERE userId = $1 AND rating = '1'",
+				[thisUser.id]
+			).then(function(resultSet) {
+				if (resultSet.rows.length) {
+					let playlists = [];
+					for (let row of resultSet.rows) {
+						let playlist = new Playlist(row.id);
+						playlist.read()
+						.then(function() {
+							return playlist.readTracks();
+						})
+						.then(function() {
+							return playlist.readRating();
+						})
+						.then(function() {
+							playlists.push(playlist);
+						});
+					}
+					thisUser.likedPlaylists = playlists;
+				} else {
+					console.log("NO PLAYLISTS");
+				}
+				resolve();
+			}).catch(function(error) {
+				console.log(error);
+				reject("An error occurred trying to read this uesr's liked playlists from the database.");
 			});
 		});
 	}

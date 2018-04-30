@@ -98,7 +98,14 @@ router.get('/:id', function(request, response) {
 	console.log(request.params.id);
 	// Get requested user
 	let requestedUser = new User(request.params.id)
-	requestedUser.read().then(function() {
+	requestedUser.read()
+	.then(function() {
+		return requestedUser.readCreatedPlaylists();
+	})
+	.then(function() {
+		return requestedUser.readLikedPlaylists();
+	})
+	.then(function() {
 		// Render the Userpage.
 		response.send({
 			success : true,
