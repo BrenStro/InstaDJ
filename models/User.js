@@ -3,7 +3,7 @@
  *
  * InstaDJ
  * ISTE 432 01
- * Ryan Bower, Thomas Kurien, Brendon Strowe, Rana Vemireddy
+ * Ryan Bower Brendon Strowe, Rana Vemireddy
  * @author Brendon Strowe
  */
 
@@ -150,7 +150,7 @@ class User {
 	}
 
 	/**
-	 * Reads in all of the playlists liked by this user and sets the 
+	 * Reads in all of the playlists liked by this user and sets the
 	 *   `likedPlaylists` property of this User object to an array of
 	 *   Playlist objects as described by the database.
 	 * @return {Promise} Whether or not the read was successful.

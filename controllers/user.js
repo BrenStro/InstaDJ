@@ -3,7 +3,7 @@
  *
  * InstaDJ
  * ISTE 432 01
- * Ryan Bower, Thomas Kurien, Brendon Strowe, Rana Vemireddy
+ * Ryan Bower, Brendon Strowe, Rana Vemireddy
  * @author Brendon Strowe
  */
 
@@ -23,27 +23,10 @@ router.all('/*', isLoggedIn, function(request, response) {
 */
 
 /**
- * Handle GET request to /user.
-
-router.get('/', function(request, response) {
-
-});
- */
-
-/**
- * Handle GET request to /user/forgotUsername.
- * Renders the ForgotUsername page.
-
-router.get('/forgotUsername', function(request, response) {
-
-});
-*/
-
-/**
  * Handle POST request to /user/forgotUsername.
  * Tries to look up the user from the provided email. Data is expected in JSON
  *   format.
-*/
+
 router.post('/forgotUsername', function(request, response) {
 	// Validate JSON
 
@@ -58,15 +41,7 @@ router.post('/forgotUsername', function(request, response) {
 
 	});
 });
-
-/**
- * Handle GET request to /user/forgotPassword.
- * Renders the ForgotPassword page.
-
-router.get('/forgotPassword', function(request, response) {
-
-});
- */
+*/
 
 /**
  * Handle POST request to /user/forgotPassword.
@@ -95,9 +70,17 @@ router.post('/forgotPassword', function(request, response) {
  */
 router.get('/:id', function(request, response) {
 	// Validate input ID as number
-	console.log(request.params.id);
+	let userId = request.params.id;
+	userId = parseInt(userId);
+	if (isNaN(userId)) {
+		response.send({
+			success : false,
+			message : "The requested User does not exist."
+		});
+	}
+
 	// Get requested user
-	let requestedUser = new User(request.params.id)
+	let requestedUser = new User(userId)
 	requestedUser.read()
 	.then(function() {
 		return requestedUser.readCreatedPlaylists();
@@ -106,13 +89,13 @@ router.get('/:id', function(request, response) {
 		return requestedUser.readLikedPlaylists();
 	})
 	.then(function() {
-		// Render the Userpage.
+		// Send the User in the response.
 		response.send({
 			success : true,
 			user : requestedUser
 		});
 	}).catch(function(error) {
-		// Render the noUserFound page.
+		// Respond with an error message.
 		console.error({
 			success : false,
 			message : error

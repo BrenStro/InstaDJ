@@ -3,7 +3,7 @@
  *
  * InstaDJ
  * ISTE 432 01
- * Ryan Bower, Thomas Kurien, Brendon Strowe, Rana Vemireddy
+ * Ryan Bower, Brendon Strowe, Rana Vemireddy
  * @author Brendon Strowe
  */
 
@@ -73,6 +73,11 @@ class Playlist {
 		});
 	}
 
+	/**
+	 * Reads the tracks in a playlist. Sets the `tracks` property of this
+	 *   Playlist to an array of trackIds as described by the database.
+	 * @return {Promise} Whether or not the read was successful.
+	 */
 	readTracks() {
 		let thisPlaylist = this;
 		return new Promise(function(resolve, reject) {
@@ -201,6 +206,11 @@ class Playlist {
 		});
 	}
 
+	/**
+	 * Adds a set of specified tracks to this Playlist. Tracks are specified by
+	 *   their MusicBrainz ID as stored in the LastFM API Database.
+	 * @param {String[]} tracks Array of trackIds to be added.
+	 */
 	addTracks(tracks) {
 		let thisPlaylist = this;
 		return new Promise(function(resolve, reject) {
@@ -222,6 +232,11 @@ class Playlist {
 		});
 	}
 
+	/**
+	 * Deletes a set of specified tracks from this Playlist. Tracks are
+	 *   specified by their MusicBrainz ID as stored in the LastFM API Database.
+	 * @param {String[]} tracks Array of trackIds to be deleted.
+	 */
 	deleteTracks(tracks) {
 		let thisPlaylist = this;
 		return new Promise(function(resolve, reject) {

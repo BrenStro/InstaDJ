@@ -1,5 +1,5 @@
 angular.module('instaDJ').controller('LoginCtrl', function($scope, $rootScope, $state, $http) {
-
+    $rootScope.$state = $state;
     $scope.loginFailed = false;
 
     $scope.loginPage = function(){
@@ -12,7 +12,8 @@ angular.module('instaDJ').controller('LoginCtrl', function($scope, $rootScope, $
         $state.go('user');
       },
       function error(response){
+        console.log(response);
         $scope.loginFailed = true;
-      })
+      });
     }
 });
