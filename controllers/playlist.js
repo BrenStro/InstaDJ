@@ -233,14 +233,14 @@ router.post('/:id/addTracks', function(request, response) {
 	if (isNaN(playlistId)) {
 		response.send({
 			success : false,
-			message : "The requested Playlist does not exist."
+			message : `The requested Playlist ${playlistId} does not exist.`
 		});
 	}
 
 	// Validate data
 	let newTracks = request.body.tracks;
 	for (let trackId of newTracks) {
-		if (trackId.length != 37) {
+		if (trackId.length != 36) {
 			response.send({
 				success : false,
 				message : `Invalid track provided at ${trackId}.`
@@ -249,10 +249,10 @@ router.post('/:id/addTracks', function(request, response) {
 	}
 
 	// Get currently logged-in user
-	let userId = request.user.id;
+	let userId = 1;//request.user.id;
 
 	// Get requested playlist
-	let requestedPlaylist = new Playlist(request.params.id)
+	let requestedPlaylist = new Playlist(playlistId);
 	requestedPlaylist.read().then(function() {
 		// Check if the requested playlist is owned by the requesting user
 		//   or if it is publicly listed
@@ -261,7 +261,7 @@ router.post('/:id/addTracks', function(request, response) {
 			requestedPlaylist.addTracks(newTracks).then(function(trackCount) {
 				response.send({
 					success : true,
-					message : `${trackCount} tracks added successfully`
+					message : `Tracks added successfully`
 				});
 			}).catch(function(error) {
 				response.send({
@@ -284,6 +284,7 @@ router.post('/:id/addTracks', function(request, response) {
 		}
 	}).catch(function(error) {
 		// send an error message
+		console.log(error);
 		response.send({
 			success : false,
 			message : "The requested playlist does not exist."
@@ -297,6 +298,7 @@ router.post('/:id/addTracks', function(request, response) {
  *   public or it is done by the playlist owber. Data is expected in JSON format.
  */
 router.post('/:id/deleteTracks', function(request, response) {
+
 	// Validate input ID as number
 	let playlistId = request.params.id;
 	playlistId = parseInt(playlistId);
@@ -309,8 +311,8 @@ router.post('/:id/deleteTracks', function(request, response) {
 
 	// Validate data
 	let tracksToDelete = request.body.tracks;
-	for (let trackId of newTracks) {
-		if (trackId.length != 37) {
+	for (let trackId of tracksToDelete) {
+		if (trackId.length != 36) {
 			response.send({
 				success : false,
 				message : `Invalid track provided at ${trackId}.`
@@ -319,10 +321,10 @@ router.post('/:id/deleteTracks', function(request, response) {
 	}
 
 	// Get currently logged-in user
-	let userId = request.user.id;
+	let userId = 1;//request.user.id;
 
 	// Get requested playlist
-	let requestedPlaylist = new Playlist(request.params.id)
+	let requestedPlaylist = new Playlist(playlistId)
 	requestedPlaylist.read().then(function() {
 		// Check if the requested playlist is owned by the requesting user
 		//   or if it is publicly listed
@@ -331,7 +333,7 @@ router.post('/:id/deleteTracks', function(request, response) {
 			requestedPlaylist.deleteTracks(tracksToDelete).then(function(trackCount) {
 				response.send({
 					success : true,
-					message : `${trackCount} tracks deleted successfully`
+					message : `Tracks deleted successfully`
 				});
 			}).catch(function(error) {
 				response.send({

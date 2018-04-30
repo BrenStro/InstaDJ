@@ -215,17 +215,17 @@ class Playlist {
 		let thisPlaylist = this;
 		return new Promise(function(resolve, reject) {
 			let trackCount = 0;
-			for (let trackId in tracks) {
+			for (let trackId of tracks) {
 				DB.setData(
 						"INSERT INTO PlaylistTrack (playlistId, trackId) " +
 						"VALUES ($1, $2)",
 						[thisPlaylist.id, trackId]
 				).then(function(resultSet) {
 					trackCount++;
-					continue;
+					//continue;
 				}).catch(function(error) {
 					console.error(error);
-					continue;
+					//continue;
 				});
 			}
 			resolve(trackCount);
@@ -241,17 +241,17 @@ class Playlist {
 		let thisPlaylist = this;
 		return new Promise(function(resolve, reject) {
 			let trackCount = 0;
-			for (let trackId in tracks) {
+			for (let trackId of tracks) {
 				DB.setData(
 						"DELETE FROM PlaylistTrack " +
 						"WHERE playlistId = $1 AND trackId = $2",
 						[thisPlaylist.id, trackId]
 				).then(function(resultSet) {
 					trackCount++;
-					continue;
+					//continue;
 				}).catch(function(error) {
 					console.error(error);
-					continue;
+					//continue;
 				});
 			}
 			resolve(trackCount);
