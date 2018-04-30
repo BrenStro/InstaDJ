@@ -249,7 +249,7 @@ router.post('/:id/addTracks', function(request, response) {
 	}
 
 	// Get currently logged-in user
-	let userId = 1;//request.user.id;
+	let userId = request.user.id;
 
 	// Get requested playlist
 	let requestedPlaylist = new Playlist(playlistId);
@@ -321,7 +321,7 @@ router.post('/:id/deleteTracks', function(request, response) {
 	}
 
 	// Get currently logged-in user
-	let userId = 1;//request.user.id;
+	let userId = request.user.id;
 
 	// Get requested playlist
 	let requestedPlaylist = new Playlist(playlistId)
