@@ -11,7 +11,7 @@
 			<th>Album</th>
 		</tr>
 		<tr ng-repeat="row in tracksInfo">
-			<td ng-click="removeTrack(row)">-</td>
+			<td class="playlist-remove" ng-click="removeTrack(row)">-</td>
 			<td title="Title" filter="" sortable="">{{row.name}}</td>
 			<td title="Artist" filter="" sortable="">{{row.artist.name}}</td>
 			<td title="Album" filter="" sortable="">{{row.album.title}}</td>
@@ -20,17 +20,17 @@
 
 	<h2>Discover</h2>
 
-	<p>Add some of the <strong>top tracks by genre</strong> to your playlist:</p>
-	<button class="add-track" ng-click="addTracksForGenre('Rock')">Rock</button>
-	<button class="add-track" ng-click="addTracksForGenre('Electronic')">Electronic</button>
-	<button class="add-track" ng-click="addTracksForGenre('Pop')">Pop</button>
+	<p>Add some top tracks by genre to your playlist:</p>
+	<button class="add-track" ng-click="addTracksForGenre('rock')">Rock</button>
+	<button class="add-track" ng-click="addTracksForGenre('pop')">Pop</button>
+	<button class="add-track" ng-click="addTracksForGenre('electronic')">Electronic</button>
 	<br/><br/>
-	<p>Add some of the <strong>top tracks of a country</strong> to your playlist:</p>
+	<p>Add the top tracks of a country to your playlist:</p>
 	<button class="add-track" ng-click="addTracksForCountry('spain')">Top in Spain</button>
 	<button class="add-track" ng-click="addTracksForCountry('germany')">Top in Germany</button>
 	<button class="add-track" ng-click="addTracksForCountry('china')">Top in China</button>
 	<br/><br/>
-	<p>Add tracks from <strong>the top of the charts</strong> to your playlist:</p>
+	<p>Add some top tracks to your playlist:</p>
 	<button class="add-track" ng-click="addTopTracks()">Top of Charts</button>
-	
+
 </div>

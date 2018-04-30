@@ -73,6 +73,12 @@ body {
 .playlist p {
 	margin-bottom: 6px;
 }
+.playlist .playlist-remove:hover {
+	cursor: pointer;
+}
+.playlist .playlist-remove {
+	font-weight: bold;
+}
 
 /* user */
 .user .playlist-table {
