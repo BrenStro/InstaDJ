@@ -9,7 +9,7 @@
 			<th>Album</th>
 		</tr>
 		<tr ng-repeat="row in tracksInfo">
-			<td ng-click="">-</td>
+			<td ng-click="removeTrack(row)">-</td>
 			<td title="Title" filter="" sortable="">{{row.name}}</td>
 			<td title="Artist" filter="" sortable="">{{row.artist.name}}</td>
 			<td title="Album" filter="" sortable="">{{row.album.title}}</td>
