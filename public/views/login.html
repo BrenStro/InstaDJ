@@ -1,12 +1,12 @@
 <div class="jumbotron text-center login">
-	<h1>Login Page</h1>
+	<h1>Login</h1>
 
 	<!-- img src="../libs/imgs/instaDJ_logo.jpg" class="login-logo" -->
 	<form class="login-form">
 		<label class="form-label red" ng-if="loginFailed">Invalid Login. Please try again.</label><br />
 		<label for="username" class="form-label">Username:</label>
 		<input type="text" id="username" name="username" size="30" ng-model="user.username"/><br />
-		<label for="password" class="form-label">Password:</span>
+		<label for="password" class="form-label">Password:</label>
 		<input type="text" id="password" name="password" size="30" ng-model="user.password"/><br />
 		<input type="submit" value="Login" ng-click="login(user)"/><br />
 	</form>
