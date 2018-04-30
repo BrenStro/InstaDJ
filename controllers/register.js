@@ -21,8 +21,8 @@ const validation			= require('../helpers/validation');
  */
 router.post('/', generateRandomCode, passport.authenticate('local-registration',
 	{
-		successRedirect : 'index.html#!/user',
-		failureRedirect : 'index.html#!/login',
+		successRedirect : 'index.html#!/login',
+		failureRedirect : 'index.html#!/register',
 		failureFlash : true //Allow Flash messages
 	})
 );
