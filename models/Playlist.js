@@ -3,7 +3,7 @@
  *
  * InstaDJ
  * ISTE 432 01
- * Ryan Bower, Thomas Kurien, Brendon Strowe, Rana Vemireddy
+ * Ryan Bower, Brendon Strowe, Rana Vemireddy
  * @author Brendon Strowe
  */
 
@@ -73,6 +73,11 @@ class Playlist {
 		});
 	}
 
+	/**
+	 * Reads the tracks in a playlist. Sets the `tracks` property of this
+	 *   Playlist to an array of trackIds as described by the database.
+	 * @return {Promise} Whether or not the read was successful.
+	 */
 	readTracks() {
 		let thisPlaylist = this;
 		return new Promise(function(resolve, reject) {
@@ -201,6 +206,11 @@ class Playlist {
 		});
 	}
 
+	/**
+	 * Adds a set of specified tracks to this Playlist. Tracks are specified by
+	 *   their MusicBrainz ID as stored in the LastFM API Database.
+	 * @param {String[]} tracks Array of trackIds to be added.
+	 */
 	addTracks(tracks) {
 		let thisPlaylist = this;
 		return new Promise(function(resolve, reject) {
@@ -222,6 +232,11 @@ class Playlist {
 		});
 	}
 
+	/**
+	 * Deletes a set of specified tracks from this Playlist. Tracks are
+	 *   specified by their MusicBrainz ID as stored in the LastFM API Database.
+	 * @param {String[]} tracks Array of trackIds to be deleted.
+	 */
 	deleteTracks(tracks) {
 		let thisPlaylist = this;
 		return new Promise(function(resolve, reject) {
@@ -240,105 +255,6 @@ class Playlist {
 				});
 			}
 			resolve(trackCount);
-		});
-	}
-
-	/**
-	 * Gets the average rating for this playlist.
-	 * @return {Number} Average rating between -1 and 1.
-	 */
-	getRating() {
-		return DB.getData(
-				"SELECT rating FROM PlaylistRating WHERE playlistId = $1",
-				[this.id]
-		).then(function(resultSet) {
-			if (!resultSet.rows.length) {
-				return 0;
-			}
-			let averageRating = 0;
-			for (let row of resultSet.rows) {
-				averageRating += parseInt(row.rating);
-			}
-			return (averageRating / resultSet.rows.length);
-		}).catch(function(error) {
-			console.error(error);
-			return 0;
-		});
-	}
-
-
-
-	/**
-	 * Gets multiple Playlists as specified by an array of Playlist ID numbers.
-	 * @param  {Number[]} ids — Array of Playlist ID numbers to be retrieved
-	 *   from the database
-	 * @return {Promise} Whether or not the fetch was succeessful. A successful
-	 *   fetch will resolve with an array of Playlist objects.
-	 */
-	static getMultiple(ids) {
-		return new Promise(function(resolve, reject) {
-			let arrayString = [];
-			for (let id of ids) {
-				arrayString += `${id}, `;
-			}
-			arrayString = arrayString.substring(0, arrayString.length-2);
-			DB.getData(
-					"SELECT id FROM Playlist WHERE id IN ($1)",
-					[arrayString]
-			).then(function(resultSet) {
-				let playlists = [];
-				for (let row of resultSet.rows) {
-					let playlist = new Playlist(row.id)
-					playlist.read().then(function(resultSet) {
-						if (resultSet.rows.length) {
-							playlists.push(playlist)
-						} else {
-							reject("Erroneous playlist id specified.");
-						}
-					}).catch(function(error) {
-						console.error(error);
-						reject(`Error reading playlist with the specified ID ${playlist.id}`);
-					});
-				}
-				resolve(playlists);
-			}).catch(function(error) {
-				console.error(error);
-				reject("Unable to fetch the playlists requested. Please try again");
-			});
-		});
-	}
-
-	/**
-	 * Gets multiple Playlists as specified by the creatorId of the playlist.
-	 * @param  {Number} creator — ID of creator by which to get playlists
-	 * @return {Promise} Whether or not the fetch was succeessful. A successful
-	 *   fetch will resolve with an array of Playlist objects.
-	 */
-	static getByCreatorId(creatorId) {
-		return new Promise(function(resolve, reject) {
-			DB.getData(
-					"SELECT id FROM Playlist WHERE creatorId = $1",
-					[creatorId]
-			).then(function(resultSet) {
-				let playlists = [];
-				for (let row of resultSet.rows) {
-					let playlist = new Playlist(row.id)
-					playlist.read().then(function(resultSet) {
-						if (resultSet.rows.length) {
-							playlists.push(playlist)
-						} else {
-							reject("Erroneous playlist id specified.");
-						}
-					}).catch(function(error) {
-						console.error(error);
-						reject(`Error reading playlist with the specified ID ${playlist.id}`);
-					});
-				}
-				resolve(playlists);
-			}).catch(function(error) {
-				console.error(error);
-				reject("Unable to fetch the playlists requested. Please try again");
-			});
 		});
 	}
 }
