@@ -8,11 +8,11 @@
 			<th>Artist</th>
 			<th>Album</th>
 		</tr>
-		<tr ng-repeat="row in tracks">
+		<tr ng-repeat="row in tracksInfo">
 			<td ng-click="">-</td>
-			<td title="Title" filter="" sortable="">{{row.title}}</td>
-			<td title="Artist" filter="" sortable="">{{row.artist}}</td>
-			<td title="Album" filter="" sortable="">{{row.album}}</td>
+			<td title="Title" filter="" sortable="">{{row.name}}</td>
+			<td title="Artist" filter="" sortable="">{{row.artist.name}}</td>
+			<td title="Album" filter="" sortable="">{{row.album.title}}</td>
 		</tr>
 	</table>
 	<button ng-click="$state.go('user')">Back</button>
