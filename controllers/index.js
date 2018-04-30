@@ -35,7 +35,27 @@ router.get('/login', function(request, response) {
  */
 router.post('/login', passport.authenticate('local-login'),
 function(request, response) {
-	response.send(request.user);
+
+	request.user.read()
+	.then(function() {
+		return request.user.readCreatedPlaylists();
+	})
+	.then(function() {
+		return request.user.readLikedPlaylists();
+	})
+	.then(function() {
+		// Send the User in the response.
+		response.send({
+			success : true,
+			user : request.user
+		});
+	}).catch(function(error) {
+		// Respond with an error message.
+		console.error({
+			success : false,
+			message : error
+		});
+	});
 }
 );
 
