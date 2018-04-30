@@ -20,27 +20,9 @@ router.get('/', function(request, response) {
 });
 
 /**
- * Handle GET request to /login.
- * Render the login page. Include handling of flash-message that may have been
- *   passed from Passport.
-
-router.get('/login', function(request, response) {
-	response.render('login', {loginErrorMsg : request.flash('loginErrorMsg'), signupErrorMsg : request.flash('signupErrorMsg')});
-});
- */
-
-/**
  * Handle POST request to /login.
  * Have passport handle the credential validation.
-
-router.post('/login', passport.authenticate('local-login'),
-function(request, response) {
-
-
-}
-);
-*/
-
+ */
 router.post('/login', function(request, response, next) {
 	passport.authenticate('local-login', function(error, user, info) {
 		if (error) {
