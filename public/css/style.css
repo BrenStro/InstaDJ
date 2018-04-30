@@ -10,10 +10,9 @@ html, body {
 body {
 	padding-top:30px;
 }
-
-/* navigation */
-
-/* index */
+.red {
+	color: red;
+}
 
 /* register */
 .register-form label {
@@ -23,9 +22,20 @@ body {
     width: 250px;
     text-align: right;
 }
-.register-form input {
+.register-form input:not(#dontfloat) {
   display: inline-block;
   float: left;
+}
+.register #dontfloat {
+	clear: both;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+.register .fields {
+	width: 600px;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 /* login */
@@ -35,8 +45,8 @@ body {
 	width: 150px;
 	text-align: right;
 }
-.red {
-	color: red;
+.login label:not(red) {
+	width: 80px;
 }
 
 /* playlist */
@@ -66,7 +76,7 @@ body {
 .user .playlist-table td:hover {
 	cursor: pointer;
 }
-.user h1, .playlist h1 {
+h1 {
 	font-style: italic;
 }
 .user h2 {

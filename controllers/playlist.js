@@ -3,7 +3,7 @@
  *
  * InstaDJ
  * ISTE 432 01
- * Ryan Bower, Thomas Kurien, Brendon Strowe, Rana Vemireddy
+ * Ryan Bower, Brendon Strowe, Rana Vemireddy
  * @author Brendon Strowe
  */
 
@@ -11,23 +11,6 @@ const express		= require('express');
 const router 		= express.Router();
 const validation	= require('../helpers/validation');
 const Playlist		= require('../models/Playlist');
-
-/**
- * Handle GET request to /playlist.
-
-router.get('/', function(request, response) {
-
-});
- */
-
-/**
- * Handle GET request to /playlist/create.
- * Renders the Create Playlist page.
-
-router.get('/create', function(request, response) {
-
-});
- */
 
 /**
  * Handle POST request to /playlist/create.
@@ -85,7 +68,7 @@ router.get('/:id', function(request, response) {
 	}
 
 	// Get currently logged-in user
-	let userId = 1;
+	let userId = request.user.id;
 
 	// Get requested playlist
 	let requestedPlaylist = new Playlist(playlistId);
@@ -127,7 +110,7 @@ router.get('/:id', function(request, response) {
  */
 router.post('/:id/rate', function(request, response) {
 	// Get currently logged-in user
-	let userId = 2;
+	let userId = request.user.id;
 
 	// Validate input
 	let newRating = request.body.rating;
@@ -202,7 +185,7 @@ router.post('/:id/delete', function(request, response) {
 	}
 
 	// Get currently logged-in user
-	let userId = 1;
+	let userId = request.user.id;
 
 	// Get requested playlist
 	let requestedPlaylist = new Playlist(request.params.id)

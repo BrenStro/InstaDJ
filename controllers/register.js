@@ -3,7 +3,7 @@
  *
  * InstaDJ
  * ISTE 432 01
- * Ryan Bower, Thomas Kurien, Brendon Strowe, Rana Vemireddy
+ * Ryan Bower, Brendon Strowe, Rana Vemireddy
  * @author Brendon Strowe
  */
 
@@ -15,13 +15,6 @@ const isNotLoggedIn			= require('../middleware/isNotLoggedIn');
 const generateRandomCode	= require('../middleware/generateRandomCode');
 const validation			= require('../helpers/validation');
 
-/**
- * Handle GET request to /register.
-
-router.get('/', function(request, response) {
-
-});
- */
 /**
  * Handle POST request to /register.
  * Registers the user
@@ -48,10 +41,11 @@ router.get('/sendConfirmation', function(request, response) {
  * Handle POST request to /register/sendConfirmation.
  * Generates random verification code, registers the user in the database, and
  *   then sends them to the confirmation page.
- */
+
 router.post('/sendConfirmation', function(request, response) {
 
 });
+ */
 
 /**
  * Handle GET request to /register/verifyConfirmation.
@@ -65,9 +59,10 @@ router.get('/verifyConfirmation', function(request, response) {
 /**
  * Handle POST request to /register/verifyConfirmation.
  * Checks whether the entered confirmation code is valid.
- */
+
 router.post('/verifyConfirmation', function(request, response) {
 
 });
+ */
 
 module.exports = router;
