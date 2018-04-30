@@ -32,32 +32,59 @@ router.get('/login', function(request, response) {
 /**
  * Handle POST request to /login.
  * Have passport handle the credential validation.
- */
+
 router.post('/login', passport.authenticate('local-login'),
 function(request, response) {
 
-	request.user.read()
-	.then(function() {
-		return request.user.readCreatedPlaylists();
-	})
-	.then(function() {
-		return request.user.readLikedPlaylists();
-	})
-	.then(function() {
-		// Send the User in the response.
-		response.send({
-			success : true,
-			user : request.user
-		});
-	}).catch(function(error) {
-		// Respond with an error message.
-		console.error({
-			success : false,
-			message : error
-		});
-	});
+
 }
 );
+*/
+
+router.post('/login', function(request, response, next) {
+	passport.authenticate('local-login', function(error, user, info) {
+		if (error) {
+			response.send({
+				success : false,
+				message : error
+			});
+		}
+		if (!user) {
+			response.send({
+				success : false,
+				message : "Invalid login credentials."
+			});
+		}
+		request.logIn(user, function(error) {
+			if (error) {
+				response.send({
+					success : false,
+					message : error
+				});
+			}
+			user.read()
+			.then(function() {
+				return user.readCreatedPlaylists();
+			})
+			.then(function() {
+				return user.readLikedPlaylists();
+			})
+			.then(function() {
+				// Send the User in the response.
+				response.send({
+					success : true,
+					user : user
+				});
+			}).catch(function(error) {
+				// Respond with an error message.
+				response.send({
+					success : false,
+					message : error
+				});
+			});
+		});
+	})(request, response, next);
+});
 
 
 /**
