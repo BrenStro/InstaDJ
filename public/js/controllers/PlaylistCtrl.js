@@ -1,5 +1,6 @@
 angular.module('instaDJ').controller('PlaylistCtrl', function($scope, $rootScope, $state) {
-  $rootScope.$state = $state; 
+  $rootScope.$state = $state;
+  $scope.tracks = $rootScope.playlist.tracks;
     $scope.data = [
       {
         title: "a title",

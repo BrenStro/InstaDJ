@@ -9,6 +9,7 @@ angular.module('instaDJ').controller('LoginCtrl', function($scope, $rootScope, $
     $scope.login = function(user){
       $http({method: "POST", data: $scope.user, url: "/login"}).then(function success(response){
         $rootScope.user = response.data;
+        //console.log($rootScope.user);
         $state.go('user');
       },
       function error(response){
