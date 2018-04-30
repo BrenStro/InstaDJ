@@ -23,8 +23,8 @@ FOR THE PLAYLIST PAGE:
 -----------------
 GENRES:
 http://ws.audioscrobbler.com/2.0/?method=tag.gettoptracks&tag=rock&api_key=31019bd7e0a4251800e5ce24efb9d5ea&format=json
-http://ws.audioscrobbler.com/2.0/?method=tag.gettoptracks&tag=pop&api_key=31019bd7e0a4251800e5ce24efb9d5ea&format=json
 http://ws.audioscrobbler.com/2.0/?method=tag.gettoptracks&tag=electronic&api_key=31019bd7e0a4251800e5ce24efb9d5ea&format=json
+http://ws.audioscrobbler.com/2.0/?method=tag.gettoptracks&tag=pop&api_key=31019bd7e0a4251800e5ce24efb9d5ea&format=json
 
 LOCATIONS:
 http://ws.audioscrobbler.com/2.0/?method=geo.gettoptracks&country=spain&api_key=31019bd7e0a4251800e5ce24efb9d5ea&format=json
