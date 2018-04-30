@@ -1,6 +1,8 @@
 <div class="jumbotron text-center playlist">
 	<h1>Playlist Page</h1>
 
+	<button id="home-button" ng-click="$state.go('user')">Return Home</button>
+
 	<table ng-table="tracks" class="playlist-table">
 		<tr>
 			<th></th>
@@ -15,5 +17,20 @@
 			<td title="Album" filter="" sortable="">{{row.album.title}}</td>
 		</tr>
 	</table>
-	<button ng-click="$state.go('user')">Back</button>
+
+	<h2>Discover</h2>
+
+	<p>Add some top tracks by genre to your playlist:</p>
+	<button class="add-track" ng-click="">Rock</button>
+	<button class="add-track" ng-click="">Pop</button>
+	<button class="add-track" ng-click="">Electronic</button>
+	<br/><br/>
+	<p>Add the top tracks of a country to your playlist:</p>
+	<button class="add-track" ng-click="">Top in Spain</button>
+	<button class="add-track" ng-click="">Top in Germany</button>
+	<button class="add-track" ng-click="">Top in China</button>
+	<br/><br/>
+	<p>Add some top tracks to your playlist:</p>
+	<button class="add-track" ng-click="">Top of Charts</button>
+	
 </div>
