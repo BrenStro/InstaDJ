@@ -91,10 +91,7 @@ class Playlist {
 						tracks.push(row.trackid.trim())
 					}
 					thisPlaylist.tracks = tracks;
-				} else {
-					//console.log("NO TRACKS");
 				}
-				//console.log("TRACKS ", thisPlaylist);
 				resolve();
 			}).catch(function(error) {
 				console.error(error);
@@ -222,10 +219,8 @@ class Playlist {
 						[thisPlaylist.id, trackId]
 				).then(function(resultSet) {
 					trackCount++;
-					//continue;
 				}).catch(function(error) {
 					console.error(error);
-					//continue;
 				});
 			}
 			resolve(trackCount);
@@ -248,10 +243,8 @@ class Playlist {
 						[thisPlaylist.id, trackId]
 				).then(function(resultSet) {
 					trackCount++;
-					//continue;
 				}).catch(function(error) {
 					console.error(error);
-					//continue;
 				});
 			}
 			resolve(trackCount);

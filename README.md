@@ -4,7 +4,6 @@ InstaDJ is a web-based application for generating playlists and discovering new 
 
 ## Authors
 * Ryan Bower
-* Thomas Kurien
 * Brendon Strowe
 * Rana Vemireddy
 
